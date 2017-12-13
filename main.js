@@ -1,5 +1,7 @@
 
 const say = require('say')
+var cron = require('node-cron');
+
 const HOURS = [
     "tweleve",
     "one",
@@ -69,12 +71,36 @@ function talk(time){
 
     return ["It's", hour, minute, suffix ].join(' ') ;
 }
+/**
+ * First method
+ * Creating a cron job to runt the clokc using cron module
+ * You can find it at : https://www.npmjs.com/package/node-cron
+ * for editing the schedule funtion's arguments
+ */
+
+cron.schedule('* * * * *', function(){
+    console.log('running this task every minute');
+
+    if(new Date().getMinutes() == 03 || new Date().getMinutes() == 15 || new Date().getMinutes() == 30 || new Date().getMinutes() == 45){
+        if(new Date().getSeconds()== 0)
+            say.speak(talk([new Date().getHours(),new Date().getMinutes()].join(':')))   
+    }
+    console.log(talk([new Date().getHours(),new Date().getMinutes()].join(':')))
+  });
     
+/*
+* Second method
+* very basic Using SetInterval function
+*
+*
 setInterval(function(){
-    if(new Date().getMinutes() == 32 || new Date().getMinutes() == 15 || new Date().getMinutes() == 30 || new Date().getMinutes() == 45){
+    if(new Date().getMinutes() == 41 || new Date().getMinutes() == 15 || new Date().getMinutes() == 30 || new Date().getMinutes() == 45){
         if(new Date().getSeconds()== 0)
             say.speak(talk([new Date().getHours(),new Date().getMinutes()].join(':')))   
     }
     console.log(talk([new Date().getHours(),new Date().getMinutes()].join(':')))
 },1000);
+
+*/ 
+
 
